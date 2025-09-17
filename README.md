@@ -1,3 +1,4 @@
+ 
 <!DOCTYPE html>
 <html lang="pt-BR" id="html">
 <head>
@@ -6,7 +7,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <title>📖 Minha Bíblia Pro</title>
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiTWluaGEgQsOtYmxpYSBQcm8iLCJzaG9ydF9uYW1lIjoiQsOtYmxpYSBQcm8iLCJzdGFydF91cmwiOiIvIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzJjM2U1MCIsInRoZW1lX2NvbG9yIjoiIzJjM2U1MCIsImRlc2NyaXB0aW9uIjoiTGVpYSBlIG91dmEgYSDCqWJsaWEgU2FncmFkYSBjb20gZmF2b3JpdG9zIGUgbW9kbyBlc2N1cm8uIiwiaWNvbnMiOlt7InNyYyI6Ii9pY29ucy9pY29uLTE5Mi5wbmciLCJzaXplcyI6IjE5MngxOTIiLCJ0eXBlIjoiaW1hZ2UvcG5nIn0seyJzcmMiOiIvaWNvbnMvaWNvbi01MTIucG5nIiwic2l6ZXMiOiI1MTJ4NTEyIiwidHlwZSI6ImltYWdlL3BuZyJ9XX0=">
+    <!-- Manifest embutido -->
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiTWluaGEgQsOtYmxpYSBQcm8iLCJzaG9ydF9uYW1lIjoiQsOtYmxpYSBQcm8iLCJzdGFydF91cmwiOiIvIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzJjM2U1MCIsInRoZW1lX2NvbG9yIjoiIzJjM2U1MCIsImRlc2NyaXB0aW9uIjoiTGVpYSBlIG91dmEgYSDCqWJsaWEgU2FncmFkYSBjb20gZmF2b3JpdG9zIGUgbW9kbyBlc2N1cm8uIiwiaWNvbnMiOltdfQ==">
     <style>
         :root {
             --bg: #ffffff;
@@ -44,6 +46,7 @@
             color: var(--text);
             line-height: 1.6;
             transition: background 0.3s, color 0.3s;
+            position: relative;
         }
 
         .container {
@@ -303,6 +306,108 @@
             text-decoration: underline;
         }
 
+        footer .versao {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        [data-theme="dark"] footer .versao {
+            color: #95a5a6;
+        }
+
+        /* BANNER DE UPDATE */
+        #update-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #27ae60;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+            max-width: 90%;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        #update-banner .close-banner {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(50px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+
+        /* MODAL DE LOGIN */
+        #login-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+        }
+
+        #login-modal .modal-content {
+            background: var(--bg);
+            margin: 10% auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        #login-modal input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        #login-modal button {
+            width: 100%;
+            padding: 12px;
+            background: var(--btn-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        #login-modal button:hover {
+            background: #3498db;
+        }
+
+        #login-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
         @media (max-width: 600px) {
             .controls {
                 flex-direction: column;
@@ -311,10 +416,6 @@
 
             .controls select, .controls button {
                 width: 100%;
-            }
-
-            .header-right {
-                gap: 5px;
             }
 
             header button {
@@ -333,6 +434,7 @@
             <div class="header-right">
                 <button id="btn-toggle-tema" title="Alternar tema">🌙</button>
                 <button id="btn-favoritos" title="Meus Favoritos">⭐</button>
+                <div id="login-status">Não logado</div>
             </div>
         </header>
 
@@ -374,12 +476,52 @@
             </div>
         </div>
 
+        <!-- MODAL DE LOGIN -->
+        <div id="login-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="close-login">&times;</span>
+                <h2>🔑 Login</h2>
+                <input type="email" id="email" placeholder="Seu e-mail" required>
+                <input type="password" id="password" placeholder="Sua senha" required>
+                <button id="btn-login">Entrar</button>
+                <button id="btn-signup" style="background: #27ae60; margin-top: 10px;">Criar Conta</button>
+                <button id="btn-logout" style="background: #e74c3c; display: none; margin-top: 10px;">Sair</button>
+            </div>
+        </div>
+
         <footer>
             <p>© 2025 Minha Bíblia Pro | Dados por <a href="https://bible-api.com" target="_blank">Bible API</a></p>
+            <p class="versao">Versão: <strong>V2.0.0</strong></p>
         </footer>
     </div>
 
+    <!-- BANNER DE UPDATE -->
+    <div id="update-banner" style="display: none;">
+        <span>🎉 Nova versão disponível! Melhorias de desempenho e novos recursos.</span>
+        <button class="close-banner" id="close-update">×</button>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
     <script>
+        // ========== CONFIGURAÇÃO DO FIREBASE ==========
+        const firebaseConfig = {
+            apiKey: "AIzaSyDkF3YgQk5wO3tQ3s8w4s9s5X7J9t7Z6Jk",
+            authDomain: "biblia-pro-demo.firebaseapp.com",
+            projectId: "biblia-pro-demo",
+            storageBucket: "biblia-pro-demo.appspot.com",
+            messagingSenderId: "123456789012",
+            appId: "1:123456789012:web:abc123def456"
+        };
+
+        // Inicializa Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
         // ========== CONFIGURAÇÕES GLOBAIS ==========
         let utterance = null;
         let isPaused = false;
@@ -387,6 +529,7 @@
         let versiculosParaLer = [];
         let indiceVersiculoAtual = 0;
         let synth = window.speechSynthesis;
+        let usuarioLogado = null;
 
         // Elementos
         const selectLivro = document.getElementById('livro');
@@ -405,6 +548,16 @@
         const modalFavoritos = document.getElementById('modal-favoritos');
         const listaFavoritos = document.getElementById('lista-favoritos');
         const spanClose = document.querySelector('.close');
+        const loginModal = document.getElementById('login-modal');
+        const closeLogin = document.getElementById('close-login');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const btnLogin = document.getElementById('btn-login');
+        const btnSignup = document.getElementById('btn-signup');
+        const btnLogout = document.getElementById('btn-logout');
+        const loginStatus = document.getElementById('login-status');
+        const updateBanner = document.getElementById('update-banner');
+        const closeUpdate = document.getElementById('close-update');
 
         // Lista de livros
         const livrosBiblia = [
@@ -437,9 +590,149 @@
         function init() {
             carregarLivros();
             carregarTema();
-            carregarFavoritos();
-            registrarServiceWorker();
             setupEventos();
+            verificarLogin();
+            mostrarBannerUpdate();
+            registrarServiceWorker();
+        }
+
+        // ========== MOSTRAR BANNER DE UPDATE ==========
+        function mostrarBannerUpdate() {
+            // Simula nova versão — aparece sempre que abrir (você pode controlar com localStorage)
+            updateBanner.style.display = 'flex';
+        }
+
+        closeUpdate.addEventListener('click', () => {
+            updateBanner.style.display = 'none';
+        });
+
+        // ========== LOGIN ==========
+        function verificarLogin() {
+            auth.onAuthStateChanged(user => {
+                usuarioLogado = user;
+                if (user) {
+                    loginStatus.textContent = `Logado como ${user.email}`;
+                    btnLogout.style.display = 'block';
+                    carregarFavoritosNuvem();
+                } else {
+                    loginStatus.textContent = 'Não logado';
+                    btnLogout.style.display = 'none';
+                }
+            });
+        }
+
+        btnFavoritos.addEventListener('click', () => {
+            if (usuarioLogado) {
+                carregarFavoritosNuvem();
+                modalFavoritos.style.display = 'block';
+            } else {
+                alert('Faça login para salvar e acessar seus favoritos na nuvem!');
+                loginModal.style.display = 'block';
+            }
+        });
+
+        btnLogin.addEventListener('click', () => {
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            auth.signInWithEmailAndPassword(email, password)
+                .then(() => {
+                    loginModal.style.display = 'none';
+                    alert('Login realizado com sucesso!');
+                })
+                .catch(err => {
+                    alert('Erro no login: ' + err.message);
+                });
+        });
+
+        btnSignup.addEventListener('click', () => {
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            auth.createUserWithEmailAndPassword(email, password)
+                .then(() => {
+                    alert('Conta criada com sucesso!');
+                })
+                .catch(err => {
+                    alert('Erro ao criar conta: ' + err.message);
+                });
+        });
+
+        btnLogout.addEventListener('click', () => {
+            auth.signOut().then(() => {
+                alert('Deslogado com sucesso!');
+            });
+        });
+
+        closeLogin.addEventListener('click', () => {
+            loginModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target == loginModal) loginModal.style.display = 'none';
+            if (e.target == modalFavoritos) modalFavoritos.style.display = 'none';
+        });
+
+        // ========== FAVORITOS NA NUVEM ==========
+        function adicionarFavorito(referencia, texto) {
+            if (!usuarioLogado) {
+                alert('Faça login para salvar favoritos na nuvem!');
+                loginModal.style.display = 'block';
+                return;
+            }
+
+            db.collection('usuarios').doc(usuarioLogado.uid).collection('favoritos').add({
+                ref: referencia,
+                text: texto,
+                data: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                alert('Favorito salvo na nuvem!');
+                carregarFavoritosNuvem();
+            })
+            .catch(err => {
+                console.error("Erro ao salvar favorito: ", err);
+                alert('Erro ao salvar favorito.');
+            });
+        }
+
+        function carregarFavoritosNuvem() {
+            if (!usuarioLogado) return;
+
+            const favoritosRef = db.collection('usuarios').doc(usuarioLogado.uid).collection('favoritos').orderBy('data', 'desc');
+            favoritosRef.get().then(snapshot => {
+                if (snapshot.empty) {
+                    listaFavoritos.innerHTML = '<p>Nenhum favorito salvo.</p>';
+                    return;
+                }
+
+                let html = '';
+                snapshot.forEach(doc => {
+                    const fav = doc.data();
+                    html += `
+                        <div class="favorito-item">
+                            <strong>${fav.ref}</strong>
+                            <p>${fav.text}</p>
+                            <button class="remover" data-id="${doc.id}">🗑️ Remover</button>
+                        </div>
+                    `;
+                });
+                listaFavoritos.innerHTML = html;
+
+                document.querySelectorAll('.remover').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        removerFavoritoNuvem(this.getAttribute('data-id'));
+                    });
+                });
+            });
+        }
+
+        function removerFavoritoNuvem(id) {
+            db.collection('usuarios').doc(usuarioLogado.uid).collection('favoritos').doc(id).delete()
+                .then(() => {
+                    carregarFavoritosNuvem();
+                })
+                .catch(err => {
+                    console.error("Erro ao remover favorito: ", err);
+                });
         }
 
         // ========== EVENTOS ==========
@@ -484,12 +777,8 @@
             // Tema
             btnToggleTema.addEventListener('click', alternarTema);
 
-            // Favoritos
-            btnFavoritos.addEventListener('click', mostrarFavoritos);
-            spanClose.addEventListener('click', () => modalFavoritos.style.display = 'none');
-            window.addEventListener('click', (e) => {
-                if (e.target == modalFavoritos) modalFavoritos.style.display = 'none';
-            });
+            // Favoritos (versículo)
+            // Será adicionado dinamicamente após carregar capítulo
         }
 
         // ========== BUSCA DE CAPÍTULO ==========
@@ -535,8 +824,7 @@
                     adicionarFavorito(`${ref}:${verse}`, text);
                     this.textContent = '★';
                     this.style.color = 'gold';
-                    this.title = 'Remover dos favoritos';
-                    this.removeEventListener('click', arguments.callee);
+                    this.title = 'Salvo!';
                 });
             });
         }
@@ -572,7 +860,7 @@
             utterance.onend = () => {
                 indiceVersiculoAtual++;
                 if (indiceVersiculoAtual < versiculosParaLer.length) {
-                    setTimeout(lerProximoVersiculo, 500); // pequena pausa
+                    setTimeout(lerProximoVersiculo, 500);
                 } else {
                     resetarControlesVoz();
                 }
@@ -646,48 +934,6 @@
             }
         }
 
-        // ========== FAVORITOS ==========
-        function adicionarFavorito(referencia, texto) {
-            let favoritos = JSON.parse(localStorage.getItem('favoritos') || '[]');
-            if (!favoritos.some(f => f.ref === referencia)) {
-                favoritos.push({ ref: referencia, text: texto });
-                localStorage.setItem('favoritos', JSON.stringify(favoritos));
-                alert('Adicionado aos favoritos!');
-            }
-            carregarFavoritos();
-        }
-
-        function carregarFavoritos() {
-            const favoritos = JSON.parse(localStorage.getItem('favoritos') || '[]');
-            listaFavoritos.innerHTML = favoritos.length === 0 ?
-                '<p>Nenhum favorito salvo.</p>' :
-                favoritos.map((fav, index) => `
-                    <div class="favorito-item">
-                        <strong>${fav.ref}</strong>
-                        <p>${fav.text}</p>
-                        <button class="remover" data-index="${index}">🗑️ Remover</button>
-                    </div>
-                `).join('');
-
-            document.querySelectorAll('.remover').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    removerFavorito(this.getAttribute('data-index'));
-                });
-            });
-        }
-
-        function removerFavorito(index) {
-            let favoritos = JSON.parse(localStorage.getItem('favoritos') || '[]');
-            favoritos.splice(index, 1);
-            localStorage.setItem('favoritos', JSON.stringify(favoritos));
-            carregarFavoritos();
-        }
-
-        function mostrarFavoritos() {
-            carregarFavoritos();
-            modalFavoritos.style.display = 'block';
-        }
-
         // ========== MODO ESCURO ==========
         function alternarTema() {
             const html = document.getElementById('html');
@@ -703,10 +949,10 @@
             btnToggleTema.textContent = temaSalvo === 'dark' ? '☀️' : '🌙';
         }
 
-        // ========== PWA - SERVICE WORKER ==========
+        // ========== PWA - SERVICE WORKER INLINE ==========
         function registrarServiceWorker() {
             if ('serviceWorker' in navigator) {
-                const sw = `
+                const swScript = `
                     const CACHE_NAME = 'biblia-pro-v1';
                     const urlsToCache = [
                         '/',
@@ -723,18 +969,20 @@
                     self.addEventListener('fetch', event => {
                         event.respondWith(
                             caches.match(event.request)
-                                .then(response => response || fetch(event.request))
+                                .then(response => {
+                                    return response || fetch(event.request);
+                                })
                         );
                     });
                 `;
 
-                const blob = new Blob([sw], {type: 'application/javascript'});
+                const blob = new Blob([swScript], {type: 'application/javascript'});
                 const swURL = URL.createObjectURL(blob);
 
                 window.addEventListener('load', () => {
                     navigator.serviceWorker.register(swURL)
-                        .then(reg => console.log('SW registrado com sucesso:', reg))
-                        .catch(err => console.log('Falha ao registrar SW:', err));
+                        .then(reg => console.log('✅ Service Worker registrado com sucesso:', reg.scope))
+                        .catch(err => console.log('❌ Falha ao registrar Service Worker:', err));
                 });
             }
         }
@@ -750,7 +998,7 @@
         }
 
         // Inicializa tudo
-        init();
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
